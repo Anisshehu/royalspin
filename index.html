@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Royal Spin</title>
+
+<style>
+body{
+    margin:0;
+    background: linear-gradient(135deg,#0f0f0f,#1c1c1c);
+    font-family:Arial;
+    text-align:center;
+    color:gold;
+}
+
+h1{
+    padding:20px;
+    font-size:32px;
+    letter-spacing:2px;
+}
+
+.balance{
+    font-size:20px;
+    margin-bottom:10px;
+}
+
+.slot{
+    font-size:70px;
+    margin:20px;
+}
+
+.controls{
+    margin-top:20px;
+}
+
+button{
+    padding:12px 20px;
+    font-size:18px;
+    margin:6px;
+    border-radius:12px;
+    border:2px solid gold;
+    background:black;
+    color:gold;
+}
+
+#spinBtn{
+    background:gold;
+    color:black;
+    font-weight:bold;
+    font-size:22px;
+}
+
+.result{
+    margin-top:20px;
+    font-size:20px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>👑 ROYAL SPIN</h1>
+
+<div class="balance">
+💰 Coins: <span id="coins">10000</span>
+<br>
+🎯 Bet: <span id="bet">100</span>
+</div>
+
+<div class="slot">
+<span id="r1">❓</span>
+<span id="r2">❓</span>
+<span id="r3">❓</span>
+</div>
+
+<div class="controls">
+<button onclick="decreaseBet()">➖</button>
+<button onclick="increaseBet()">➕</button>
+<br>
+<button id="spinBtn" onclick="spin()">SPIN</button>
+</div>
+
+<div class="result" id="result"></div>
+
+<script>
+
+let coins = 10000;
+let bet = 100;
+let symbols = ["🍒","💎","👑","7️⃣","⭐"];
+
+function update(){
+    document.getElementById("coins").innerText = coins;
+    document.getElementById("bet").innerText = bet;
+}
+
+function increaseBet(){
+    if(bet < 1000){
+        bet += 100;
+        update();
+    }
+}
+
+function decreaseBet(){
+    if(bet > 100){
+        bet -= 100;
+        update();
+    }
+}
+
+function spin(){
+
+    if(coins < bet){
+        document.getElementById("result").innerText = "Not enough coins!";
+        return;
+    }
+
+    coins -= bet;
+
+    let r1 = symbols[Math.floor(Math.random()*symbols.length)];
+    let r2 = symbols[Math.floor(Math.random()*symbols.length)];
+    let r3 = symbols[Math.floor(Math.random()*symbols.length)];
+
+    document.getElementById("r1").innerText = r1;
+    document.getElementById("r2").innerText = r2;
+    document.getElementById("r3").innerText = r3;
+
+    let win = 0;
+
+    if(r1 === r2 && r2 === r3){
+        win = bet * 5;
+        document.getElementById("result").innerText = "🔥 JACKPOT! +" + win;
+    }
+    else if(r1 === r2 || r1 === r3 || r2 === r3){
+        win = bet * 2;
+        document.getElementById("result").innerText = "✨ Nice Win! +" + win;
+    }
+    else{
+        document.getElementById("result").innerText = "Try Again";
+    }
+
+    coins += win;
+    update();
+}
+
+update();
+
+</script>
+
+</body>
+</html>
